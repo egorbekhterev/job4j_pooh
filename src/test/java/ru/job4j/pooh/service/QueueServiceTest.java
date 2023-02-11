@@ -30,7 +30,7 @@ class QueueServiceTest {
         Resp result = queueService.process(
                 new Req("GET", "queue", "weather", null)
         );
-        assertThat(result.text()).isNull();
+        assertThat(result.text()).isEqualTo("");
         assertThat(result.status()).isEqualTo("204");
     }
 }

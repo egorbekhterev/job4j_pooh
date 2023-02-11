@@ -1,8 +1,10 @@
 package ru.job4j.pooh;
 
-/** Resp - ответ от сервиса.
+/**
+ * Resp - ответ от сервиса.
  * text - текст ответа.
- * status  - HTTP response status code.*/
+ * status  - HTTP response status code.
+ */
 public class Resp {
     private final String text;
     private final String status;

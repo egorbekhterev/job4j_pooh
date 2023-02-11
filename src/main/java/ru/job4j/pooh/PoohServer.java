@@ -16,6 +16,9 @@ import java.util.concurrent.Executors;
 public class PoohServer {
     private final HashMap<String, Service> modes = new HashMap<>();
 
+    /** Многопоточная реализация сервера.
+     * Запросы обрабатываются параллельно с помощью ThreadPool.
+     * Нити в ThreadPool переиспользуются заново, а не пересоздаются, что еще больше ускоряет процесс.*/
     public void start() {
         modes.put("queue", new QueueService());
         modes.put("topic", new TopicService());
