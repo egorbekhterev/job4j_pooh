@@ -33,7 +33,9 @@ class TopicServiceTest {
                 new Req("GET", "topic", "weather", paramForSubscriber2)
         );
         assertThat(result1.text()).isEqualTo("temperature=18");
+        assertThat(result1.status()).isEqualTo("200");
         assertThat(result2.text()).isEqualTo("");
+        assertThat(result2.status()).isEqualTo("204");
     }
 
     @Test
@@ -55,7 +57,9 @@ class TopicServiceTest {
         Resp rsl2 = topicService.process(new Req(
                 "GET", "topic", "weather", paramForSubscriber1));
         assertThat(rsl1.text()).isEqualTo("temperature=18");
+        assertThat(rsl1.status()).isEqualTo("200");
         assertThat(rsl2.text()).isEqualTo("temperature=22");
+        assertThat(rsl2.status()).isEqualTo("200");
     }
 
     @Test
@@ -65,5 +69,6 @@ class TopicServiceTest {
         Resp rsl = topicService.process(new Req(
                 "GET", "topic", "weather", paramForSubscriber1));
         assertThat(rsl.text()).isEqualTo("");
+        assertThat(rsl.status()).isEqualTo("204");
     }
 }
