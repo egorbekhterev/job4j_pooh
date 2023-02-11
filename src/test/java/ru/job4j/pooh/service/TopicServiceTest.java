@@ -35,4 +35,35 @@ class TopicServiceTest {
         assertThat(result1.text()).isEqualTo("temperature=18");
         assertThat(result2.text()).isEqualTo("");
     }
+
+    @Test
+    public void whenTopicSequentialPost() {
+        TopicService topicService = new TopicService();
+        String paramForPublisher1 = "temperature=18";
+        String paramForPublisher2 = "temperature=22";
+        String paramForSubscriber1 = "client407";
+        topicService.process(new Req(
+                "GET", "topic", "weather", paramForSubscriber1));
+        topicService.process(new Req(
+                "POST", "topic", "weather", paramForPublisher1)
+        );
+        topicService.process(new Req(
+                "POST", "topic", "weather", paramForPublisher2)
+        );
+        Resp rsl1 = topicService.process(new Req(
+                "GET", "topic", "weather", paramForSubscriber1));
+        Resp rsl2 = topicService.process(new Req(
+                "GET", "topic", "weather", paramForSubscriber1));
+        assertThat(rsl1.text()).isEqualTo("temperature=18");
+        assertThat(rsl2.text()).isEqualTo("temperature=22");
+    }
+
+    @Test
+    public void whenTopicHasNoData() {
+        TopicService topicService = new TopicService();
+        String paramForSubscriber1 = "client407";
+        Resp rsl = topicService.process(new Req(
+                "GET", "topic", "weather", paramForSubscriber1));
+        assertThat(rsl.text()).isEqualTo("");
+    }
 }
