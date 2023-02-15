@@ -12,8 +12,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public class TopicService implements Service {
 
-    private static final String GET = "GET";
-    private static final String POST = "POST";
     private final Map<String, ConcurrentHashMap<String, ConcurrentLinkedQueue<String>>> topic = new ConcurrentHashMap<>();
 
     /**
@@ -31,21 +29,21 @@ public class TopicService implements Service {
         String name = req.getSourceName();
         String param = req.getParam();
         String text = "";
-        String status = "200";
-        if (POST.equals(req.httpRequestType())) {
+        String status = Resp.OK;
+        if (Req.POST.equals(req.httpRequestType())) {
             var innerMap = topic.getOrDefault(name,
                     new ConcurrentHashMap<>());
             for (Map.Entry<String, ConcurrentLinkedQueue<String>> entry : innerMap.entrySet()) {
                 entry.getValue().add(param);
             }
-        } else if (GET.equals(req.httpRequestType())) {
+        } else if (Req.GET.equals(req.httpRequestType())) {
             topic.putIfAbsent(name, new ConcurrentHashMap<>());
             topic.get(name).putIfAbsent(param, new ConcurrentLinkedQueue<>());
             var paramQueue = topic.get(name).get(param);
             text = paramQueue.poll();
             if (text == null) {
                 text = "";
-                status = "204";
+                status = Resp.NO_CONTENT;
             }
         }
         return new Resp(text, status);

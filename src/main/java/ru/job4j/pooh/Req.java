@@ -12,8 +12,8 @@ public class Req {
     private final String sourceName;
     private final String param;
 
-    private static final String GET = "GET";
-    private static final String POST = "POST";
+    public static final String GET = "GET";
+    public static final String POST = "POST";
     private static final String QUEUE = "queue";
     private static final String TOPIC = "topic";
 
